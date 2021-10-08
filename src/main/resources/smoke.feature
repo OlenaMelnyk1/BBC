@@ -81,3 +81,14 @@ Examples:
       |HomePage|CategoryName|
       |https://www.bbc.com/|Video|
 
+  Scenario Outline: Check that user can submit a question to BBC
+    Given User opens '<HomePage>' page
+    And User clicks on button News
+    And User checks page News visibility
+    And User clicks on button Coronavirus
+    And User clicks on button Your Coronavirus Stories
+    And User inputs data in fields '<TextMessage>' '<Name>' '<Email>' '<Contact>' '<Location>'
+    Examples:
+      |HomePage            |SearchPhrase          |TextMessage|Name |Email  |Contact    |Location|
+      |https://www.bbc.com/|Send us your questions|           |Elena|1@q.com|01112345678|UK      |
+

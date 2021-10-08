@@ -10,9 +10,7 @@ import manager.PageFactoryManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import pages.HomePage;
-import pages.NewsPage;
-import pages.SearchPage;
+import pages.*;
 
 
 import java.util.List;
@@ -26,6 +24,9 @@ public class DefinitionSteps {
     HomePage homePage;
     NewsPage newsPage;
     SearchPage searchPage;
+    ArticlePage articlePage;
+    CoronavirusPage coronavirusPage;
+    YourQuestionsAnsweredPage yourQuestionsAnsweredPage;
     PageFactoryManager pageFactoryManager;
 
     @Before
@@ -85,7 +86,7 @@ public class DefinitionSteps {
     }
 
     @And("User checks page Search page visibility")
-    public void checksPageSearchPageVisibility() {
+    public void checkPageSearchPageVisibility() {
         searchPage=pageFactoryManager.getSearchPage();
         searchPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
     }
@@ -97,5 +98,45 @@ public class DefinitionSteps {
         assertTrue(searchPage.getSearchedArticles().get(2).getText().contains(category));
     }
 
+    @And("User inputs {string} Search field")
+    public void inputSearchPhraseSearchField(final String phrase) {
+        newsPage.enterTextToSearchField(phrase);
+        newsPage.clickSearchButton();
+    }
+
+    @And("User clicks on the first article")
+    public void clickOnFirstArticle() {
+        searchPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
+        System.out.println(0);
+        searchPage.clickFirstArticle();
+        System.out.println(1);
+    }
+
+    @And("User checks page Article page visibility")
+    public void checkArticlePageVisibility() {
+        articlePage = pageFactoryManager.getArticlePage();
+        articlePage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
+    }
+
+
+    @And("User clicks on button Coronavirus")
+    public void clickOnButtonCoronavirus() {
+        newsPage.clickButtonCoronavirus();
+    }
+
+    @And("User clicks on button Your Coronavirus Stories")
+    public void clickOnButtonYourCoronavirusStories() {
+        coronavirusPage = pageFactoryManager.getCoronavirusPage();
+        coronavirusPage.clickButtonYourCoronavirusStories();
+        coronavirusPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
+        coronavirusPage.clickButtonYourCoronavirusStories();
+    }
+    @And("User inputs data in fields {string} {string} {string} {string} {string}")
+    public void inputDataInFields(final String text, final String name, final String email, final String contact,final String location) {
+        yourQuestionsAnsweredPage=pageFactoryManager.getYourQuestionsAnsweredPage();
+        yourQuestionsAnsweredPage.inputTextInFields(text, name, email, contact, location);
+        yourQuestionsAnsweredPage.clickCheckBox();
+        yourQuestionsAnsweredPage.clickButtonSubmit();
+    }
 }
 

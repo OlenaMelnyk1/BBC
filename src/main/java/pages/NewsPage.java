@@ -22,6 +22,9 @@ public class NewsPage extends BasePage{
     @FindBy(xpath ="//button[@class='orb-search__button']")
     private WebElement buttonSearch;
 
+    @FindBy(xpath = "//nav[@class='nw-c-nav__wide']//span[text()='Coronavirus']")
+    private WebElement buttonCoronavirus;
+
     public NewsPage(WebDriver driver) {
         super(driver);
     }
@@ -33,4 +36,5 @@ public class NewsPage extends BasePage{
         searchString.sendKeys(keyword);
     }
     public void clickSearchButton(){buttonSearch.click();}
+    public void clickButtonCoronavirus(){navigateCategory.get(0).click();}
 }
