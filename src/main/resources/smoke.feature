@@ -3,20 +3,19 @@ Feature:
   I want to test main site functionality
   So that I can be sure that site works correctly
 
-Scenario Outline: Checks name of the headline article in News
-  Given User opens '<HomePage>' page
-  And User clicks on button News
-  And User checks page News visibility
-  Then User checks the name of the headline article '<ArticleName>'
-Examples:
-|HomePage|ArticleName|
-|https://www.bbc.com/|Secret assets of Kenyan president’s family exposed|
-
-
-  Scenario: Checks names of all articles in News
+  Background:
     Given User opens 'https://www.bbc.com/' page
     And User clicks on button News
     And User checks page News visibility
+
+  Scenario Outline: Checks name of the headline article in News
+    Then User checks the name of the headline article '<ArticleName>'
+    Examples:
+      |ArticleName|
+      |Secret assets of Kenyan president’s family exposed|
+
+
+  Scenario: Checks names of all articles in News
     Then User checks the names of all articles
       |Secret assets of Kenyan president’s family exposed|
       |Leaders respond to Pandora Papers leaks3 minutes ago|
@@ -70,25 +69,12 @@ Examples:
       |Watford in talks to appoint Ranieri|
 
   Scenario Outline: Checks search by category name in News
-    Given User opens '<HomePage>' page
-    And User clicks on button News
-    And User checks page News visibility
-    And User collects names of all Category of the headline and checks '<CategoryName>'
+    Given User collects names of all Category of the headline and checks '<CategoryName>'
     And User inputs name of Category into '<CategoryName>' Search field
     And User checks page Search page visibility
     Then User checks '<CategoryName>' of the first article
     Examples:
-      |HomePage|CategoryName|
-      |https://www.bbc.com/|Video|
+      |CategoryName|
+      |Video|
 
-  Scenario Outline: Check that user can submit a question to BBC
-    Given User opens '<HomePage>' page
-    And User clicks on button News
-    And User checks page News visibility
-    And User clicks on button Coronavirus
-    And User clicks on button Your Coronavirus Stories
-    And User inputs data in fields '<TextMessage>' '<Name>' '<Email>' '<Contact>' '<Location>'
-    Examples:
-      |HomePage            |SearchPhrase          |TextMessage|Name |Email  |Contact    |Location|
-      |https://www.bbc.com/|Send us your questions|           |Elena|1@q.com|01112345678|UK      |
 

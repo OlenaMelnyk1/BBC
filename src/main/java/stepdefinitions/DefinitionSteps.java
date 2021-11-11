@@ -14,6 +14,7 @@ import pages.*;
 
 
 import java.util.List;
+import java.util.Map;
 
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
 import static org.junit.Assert.assertTrue;
@@ -38,8 +39,8 @@ public class DefinitionSteps {
     }
     @Given("User opens {string} page")
     public void openHomePage(String url){
-    homePage=pageFactoryManager.getHomePage();
-    homePage.openHomePage(url);
+        homePage=pageFactoryManager.getHomePage();
+        homePage.openHomePage(url);
     }
 
     @And("User clicks on button News")
@@ -68,9 +69,9 @@ public class DefinitionSteps {
         for (WebElement title:newsPage.getListOfArticleNames())
         { check=false;
             for (String a:rows) { if (title.getText().equalsIgnoreCase(a)) check=true;}
-          assertTrue(check);
-            }
+            assertTrue(check);
         }
+    }
 
     @And("User collects names of all Category of the headline and checks {string}")
     public void collectAllCategoryOfHeadline(final String category) {
@@ -131,12 +132,52 @@ public class DefinitionSteps {
         coronavirusPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
         coronavirusPage.clickButtonYourCoronavirusStories();
     }
-    @And("User inputs data in fields {string} {string} {string} {string} {string}")
-    public void inputDataInFields(final String text, final String name, final String email, final String contact,final String location) {
+//    @And("User inputs data in fields {string} {string} {string} {string} {string}")
+//    public void inputDataInFields(final String text, final String name, final String email, final String contact,final String location) {
+//        yourQuestionsAnsweredPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
+//        yourQuestionsAnsweredPage.waitVisibilityOfElement(DEFAULT_TIMEOUT,yourQuestionsAnsweredPage.getButtonPopUpClose());
+//        yourQuestionsAnsweredPage.clickButtonPopUpClose();
+//        yourQuestionsAnsweredPage.inputTextInFields(text, name, email, contact, location);
+//        yourQuestionsAnsweredPage.clickCheckBox();
+//        yourQuestionsAnsweredPage.clickButtonSubmit();
+//    }
+
+    @Given("User opens form {string} page")
+    public void openFormHttpsWwwBbcComNewsPage(String url) {
         yourQuestionsAnsweredPage=pageFactoryManager.getYourQuestionsAnsweredPage();
-        yourQuestionsAnsweredPage.inputTextInFields(text, name, email, contact, location);
+        yourQuestionsAnsweredPage.openYourQuestionsAnsweredPage(url);
+    }
+
+//    @And("^User fills the form {string} with value: {string}$")
+//    public void fillFormWithValue(final String form, final String value) {
+//        yourQuestionsAnsweredPage.inputFieldByName(form,value);
+//    }
+
+    @And("^User fills the form with value:$")
+    public void fillFormWithValue(DataTable fields) {
+        List<Map<String, String>> formTable = fields.asMaps();
+        yourQuestionsAnsweredPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
+        yourQuestionsAnsweredPage.waitVisibilityOfElement(DEFAULT_TIMEOUT,yourQuestionsAnsweredPage.getButtonPopUpClose());
+        yourQuestionsAnsweredPage.clickButtonPopUpClose();
+       // yourQuestionsAnsweredPage.inputFieldByName(formTable.get(0).get("form"),formTable.get(0).get("value"));
+        yourQuestionsAnsweredPage.inputFieldByName(formTable.get(1).get("form"),formTable.get(1).get("value"));
+        yourQuestionsAnsweredPage.inputFieldByName(formTable.get(2).get("form"),formTable.get(2).get("value"));
+        yourQuestionsAnsweredPage.inputFieldByName(formTable.get(3).get("form"),formTable.get(3).get("value"));
+        yourQuestionsAnsweredPage.inputFieldByName(formTable.get(4).get("form"),formTable.get(4).get("value"));
+        yourQuestionsAnsweredPage.inputFieldByName(formTable.get(5).get("form"),formTable.get(5).get("value"));
         yourQuestionsAnsweredPage.clickCheckBox();
+    }
+
+    @And("User clicks Submit button")
+    public void clickSubmitButton() {
         yourQuestionsAnsweredPage.clickButtonSubmit();
+    }
+
+    @Then("User gets error message")
+    public void getErrorMessage(){
+        yourQuestionsAnsweredPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
+        yourQuestionsAnsweredPage.waitVisibilityOfElement(DEFAULT_TIMEOUT,yourQuestionsAnsweredPage.getErrorMessage());
+        assertTrue(yourQuestionsAnsweredPage.isVisibilityErrorMessage());
     }
 }
 
