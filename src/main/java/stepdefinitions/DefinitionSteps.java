@@ -56,6 +56,7 @@ public class DefinitionSteps {
 
     @Then("User checks the name of the headline article {string}")
     public void checkNameArticle(String title){
+        closePopUpWindow(newsPage);
         assertTrue(newsPage.getTitleArticle().equalsIgnoreCase(title));
     }
 
@@ -66,6 +67,7 @@ public class DefinitionSteps {
     public void checkNamesOfAllArticles(DataTable arg) {
         boolean check;
         List<String> rows = arg.asList(String.class);
+        closePopUpWindow(newsPage);
         for (WebElement title:newsPage.getListOfArticleNames())
         { check=false;
             for (String a:rows) { if (title.getText().equalsIgnoreCase(a)) check=true;}
@@ -89,7 +91,7 @@ public class DefinitionSteps {
     @And("User checks page Search page visibility")
     public void checkPageSearchPageVisibility() {
         searchPage=pageFactoryManager.getSearchPage();
-        searchPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
+        searchPage.waitVisibilityOfElement(DEFAULT_TIMEOUT,searchPage.getSearchedArticles().get(0));
     }
 
     @Then("User checks {string} of the first article")
@@ -132,15 +134,6 @@ public class DefinitionSteps {
         coronavirusPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
         coronavirusPage.clickButtonYourCoronavirusStories();
     }
-//    @And("User inputs data in fields {string} {string} {string} {string} {string}")
-//    public void inputDataInFields(final String text, final String name, final String email, final String contact,final String location) {
-//        yourQuestionsAnsweredPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
-//        yourQuestionsAnsweredPage.waitVisibilityOfElement(DEFAULT_TIMEOUT,yourQuestionsAnsweredPage.getButtonPopUpClose());
-//        yourQuestionsAnsweredPage.clickButtonPopUpClose();
-//        yourQuestionsAnsweredPage.inputTextInFields(text, name, email, contact, location);
-//        yourQuestionsAnsweredPage.clickCheckBox();
-//        yourQuestionsAnsweredPage.clickButtonSubmit();
-//    }
 
     @Given("User opens form {string} page")
     public void openFormHttpsWwwBbcComNewsPage(String url) {
@@ -148,24 +141,18 @@ public class DefinitionSteps {
         yourQuestionsAnsweredPage.openYourQuestionsAnsweredPage(url);
     }
 
-//    @And("^User fills the form {string} with value: {string}$")
-//    public void fillFormWithValue(final String form, final String value) {
-//        yourQuestionsAnsweredPage.inputFieldByName(form,value);
-//    }
-
     @And("^User fills the form with value:$")
     public void fillFormWithValue(DataTable fields) {
         List<Map<String, String>> formTable = fields.asMaps();
-        yourQuestionsAnsweredPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
-        yourQuestionsAnsweredPage.waitVisibilityOfElement(DEFAULT_TIMEOUT,yourQuestionsAnsweredPage.getButtonPopUpClose());
-        yourQuestionsAnsweredPage.clickButtonPopUpClose();
-       // yourQuestionsAnsweredPage.inputFieldByName(formTable.get(0).get("form"),formTable.get(0).get("value"));
-        yourQuestionsAnsweredPage.inputFieldByName(formTable.get(1).get("form"),formTable.get(1).get("value"));
-        yourQuestionsAnsweredPage.inputFieldByName(formTable.get(2).get("form"),formTable.get(2).get("value"));
-        yourQuestionsAnsweredPage.inputFieldByName(formTable.get(3).get("form"),formTable.get(3).get("value"));
-        yourQuestionsAnsweredPage.inputFieldByName(formTable.get(4).get("form"),formTable.get(4).get("value"));
-        yourQuestionsAnsweredPage.inputFieldByName(formTable.get(5).get("form"),formTable.get(5).get("value"));
+        closePopUpWindow(yourQuestionsAnsweredPage);
+        formTable.stream().forEach(field -> yourQuestionsAnsweredPage.inputFieldByName(field.get("form"),field.get("value")));
         yourQuestionsAnsweredPage.clickCheckBox();
+    }
+
+    private void closePopUpWindow(BasePage page) {
+        page.waitForPageLoadComplete(DEFAULT_TIMEOUT);
+        page.waitVisibilityOfElement(DEFAULT_TIMEOUT, page.getButtonPopUpClose());
+        page.clickButtonPopUpClose();
     }
 
     @And("User clicks Submit button")

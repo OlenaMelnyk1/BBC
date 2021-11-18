@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
 public class SearchPage extends BasePage{
-    @FindBy(xpath = "//p[@class='ssrcss-6arcww-PromoHeadline e1f5wbog4']")
+    @FindBy(xpath = "//p [contains(@class, 'PromoHeadline' )]")
     private List<WebElement> searchedArticles;
 
     public SearchPage(WebDriver driver) {

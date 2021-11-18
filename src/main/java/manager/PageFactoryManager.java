@@ -14,6 +14,5 @@ public class PageFactoryManager {
     public ArticlePage getArticlePage(){ return new ArticlePage(driver);}
     public CoronavirusPage getCoronavirusPage(){ return  new CoronavirusPage(driver);}
     public YourQuestionsAnsweredPage getYourQuestionsAnsweredPage(){return  new YourQuestionsAnsweredPage(driver);}
-//    public WishListPage getWishListPage(){return new WishListPage(driver);}
-//    public BagPage getBagPage(){ return new BagPage(driver);}
+
 }

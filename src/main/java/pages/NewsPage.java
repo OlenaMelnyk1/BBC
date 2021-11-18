@@ -7,13 +7,13 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
 public class NewsPage extends BasePage{
-    @FindBy(xpath="//div[@class='gs-c-promo-body gs-u-display-none gs-u-display-inline-block@m gs-u-mt@xs gs-u-mt0@m gel-1/3@m']//h3[@class='gs-c-promo-heading__title gel-paragon-bold nw-o-link-split__text']")
+    @FindBy(xpath="//div[contains(@class,'gs-u-display-inline-block@m gs-u-mt@xs')]")
     private WebElement titleArticle;
 
-    @FindBy(xpath="//h3 [@class='gs-c-promo-heading__title gel-pica-bold nw-o-link-split__text']")
+    @FindBy(xpath="//*[contains(@class,'stories__secondary')]")
     private List<WebElement> listOfArticleNames;
 
-    @FindBy (xpath = "//li[@class='gs-o-list-ui__item--flush gel-long-primer gs-u-display-block gs-u-float-left nw-c-nav__wide-menuitem-container']")
+    @FindBy (xpath = "//li[contains (@class,'gs-u-float-left nw-c-nav__wide-menuitem-container')]")
     private List<WebElement> navigateCategory;
 
     @FindBy (xpath = "//input[@type='text']")
